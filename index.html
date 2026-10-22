@@ -43,7 +43,8 @@ td[data-e]::before{content:attr(data-e);position:absolute;bottom:1px;left:1px;fo
 #crews{display:flex;gap:6px;margin-top:8px}#crews .sec{flex:1;margin-top:0;padding:8px;min-width:0;border-radius:14px}#crews h3{font-size:12px;margin:0 0 4px}#crews .chip{display:flex;padding:4px 7px;margin:3px 0;font-size:13px;flex-wrap:wrap;gap:4px}#crews .chip small{font-size:10px}
 #v1 .row .btn{padding:8px}
 .cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:8px}.cal b{font-size:12px;color:var(--sub);text-align:center;font-weight:500}.cal b.r,.cal button.r{color:#ff6b6b}.cal button{border:0;border-radius:12px;background:#0b0d16;color:#fff;padding:9px 0;font-size:14px}.cal button.t{outline:1px solid var(--sub)}.cal button.s{background:linear-gradient(135deg,#f0883a,#ea6a3a);color:#fff}
-#grid td.nm{min-width:0;padding:0 5px;font-size:13px;white-space:nowrap}#grid tr:first-child th:first-child{min-width:0;padding:0}#grid th,#grid td.c{min-width:28px}.ov{box-shadow:inset 0 -3px 0 #fff}#grid{border-collapse:separate;border-spacing:0}#grid th,#grid td{border:1px solid var(--bg)}#grid td.nm{border-right:1px solid var(--line)}#grid tr:first-child th:first-child{position:sticky;left:0;background:var(--card);z-index:1}#sh{position:fixed;inset:0;background:#000a;display:flex;align-items:flex-end;justify-content:center;z-index:50}#sh .box{background:var(--card);border-radius:24px 24px 0 0;padding:14px 14px calc(14px + env(safe-area-inset-bottom,0px));width:100%;max-width:640px}#sh .btn{width:100%;margin-top:8px}
+#grid td.nm{min-width:0;padding:0 5px;font-size:13px;white-space:nowrap}#grid tr:first-child th:first-child{min-width:0;padding:0}#grid th,#grid td.c{min-width:28px}
+.pg{display:grid;grid-template-columns:1fr 1fr;gap:8px}.pg label{font-size:12px;color:var(--sub);display:block;margin-bottom:4px}.pg input{padding:8px;font-size:15px}.pt{width:100%;border-collapse:collapse;font-size:14px}.pt td{border:0;border-bottom:1px solid var(--line);padding:6px 0;min-width:0}.pt td:last-child{text-align:right;font-weight:600}summary{list-style:none}.ov{box-shadow:inset 0 -3px 0 #fff}#grid{border-collapse:separate;border-spacing:0}#grid th,#grid td{border:1px solid var(--bg)}#grid td.nm{border-right:1px solid var(--line)}#grid tr:first-child th:first-child{position:sticky;left:0;background:var(--card);z-index:1}#sh{position:fixed;inset:0;background:#000a;display:flex;align-items:flex-end;justify-content:center;z-index:50}#sh .box{background:var(--card);border-radius:24px 24px 0 0;padding:14px 14px calc(14px + env(safe-area-inset-bottom,0px));width:100%;max-width:640px}#sh .btn{width:100%;margin-top:8px}
 </style></head><body>
 
 <div class="tabs"><button id="t1" class="btn" onclick="tab(1)">근무표</button><button id="t2" class="btn g" onclick="tab(2)">조편성</button><button id="t3" class="btn g" onclick="tab(3)">월급</button></div>
@@ -57,7 +58,7 @@ td[data-e]::before{content:attr(data-e);position:absolute;bottom:1px;left:1px;fo
 
 <div class="card"><div class="lb" id="mt"></div><div class="wrap"><table id="grid"></table></div><div id="sum"></div><button class="btn" id="xl" style="width:100%;margin-top:12px" onclick="xlsx()">엑셀 파일로 저장</button></div>
 </div>
-<div id="v3" class="hide"><div class="card"><div class="lb">월급</div><div class="empty">준비 중이에요. 내용은 나중에 추가할게요.</div></div></div>
+<div id="v3" class="hide"><div id="pay"></div></div>
 <div id="v2" class="hide">
 
 <div class="card">
@@ -149,6 +150,33 @@ function setNote(j,x,v){const k=S.people[j].id+'|'+x;if(v)S.nt[k]=v;else delete 
 function setEa(j,x,v){const k=S.people[j].id+'|'+x;if(v)S.ea[k]=v;else delete S.ea[k];save();closeSh();render()}
 function askMe(){$('#shb').innerHTML='<div style="font-size:15px;font-weight:700">누구세요?</div><div class="lb" style="margin:4px 0 6px">내 이름을 고르면 표에서 색깔로 보여줘요</div>'+S.people.map(p=>`<button class="btn g" style="display:block;width:100%;margin-top:6px;padding:12px" onclick="setMe('${p.id}')">${esc(p.name)} <small>${esc(p.team)}조</small></button>`).join('');$('#sh').classList.remove('hide')}
 function setMe(id){ME=id;try{localStorage.setItem('shift_me',id)}catch(e){}closeSh();render()}
+let PAY={};try{PAY=JSON.parse(localStorage.getItem('shift_pay'))||{}}catch(e){}
+PAY=Object.assign({wage:0,baseH:0,brk:1,nightH:8,ded:0,sun:1,sat:0,start:1,m:{}},PAY);
+const _t=new Date();let PM={y:_t.getFullYear(),m:_t.getMonth()},PSO=false;
+function savePay(){try{localStorage.setItem('shift_pay',JSON.stringify(PAY))}catch(e){}}
+function setPay(k,v){PAY[k]=k==='start'?Math.min(28,Math.max(1,+v||1)):(+v||0);savePay();renderPay()}
+function setPayM(k,v){const key=PM.y+'-'+(PM.m+1);PAY.m[key]=PAY.m[key]||{};PAY.m[key][k]=+v||0;savePay();renderPay()}
+function payMv(k){PM.m+=k;if(PM.m<0){PM.m=11;PM.y--}if(PM.m>11){PM.m=0;PM.y++}renderPay()}
+function payRange(){const y=PM.y,m=PM.m,s=PAY.start>1?PAY.start:1,a=s>1?Date.UTC(y,m-1,s):Date.UTC(y,m,1),b=s>1?Date.UTC(y,m,s-1):Date.UTC(y,m+1,0);return[Math.round(a/864e5),Math.round(b/864e5)]}
+function calcPay(p,a,b){const r={n:{주:0,야:0},ext:0,h1:0,h2:0,night:0,el:0,ea:0};
+  for(let x=a;x<=b;x++){const s=st(p,x);if(s==='휴')continue;const k=p.id+'|'+x,e=S.nt[k]||0,ar=S.ea[k]||0;r.n[s]++;r.el+=e;r.ea+=ar;
+    const H=Math.max(0,12-PAY.brk-e+ar),dd=di(x),hol=(PAY.sun&&dd===0)||(PAY.sat&&dd===6)||!!HOL[fd(x)];
+    if(hol){r.h1+=Math.min(H,8);r.h2+=Math.max(0,H-8)}else r.ext+=Math.max(0,H-8);
+    r.night+=s==='야'?Math.max(0,PAY.nightH-Math.max(0,e-1)):Math.max(0,ar-1)}
+  return r}
+function renderPay(){const me=S.people.find(p=>p.id===ME);
+  if(!me){$('#pay').innerHTML='<div class="card"><div class="empty">내 이름을 먼저 선택해 주세요.</div></div>';return}
+  const [a,b]=payRange(),r=calcPay(me,a,b),key=PM.y+'-'+(PM.m+1),mm=PAY.m[key]||{},w=+PAY.wage||0,ann=+mm.ann||0,wk=+mm.wk||0,
+    h=n=>(+n.toFixed(1))+'시간',won=n=>Math.round(n).toLocaleString('ko-KR')+'원',
+    rows=arr=>arr.map(([x,y])=>`<tr><td>${x}</td><td>${y}</td></tr>`).join(''),
+    L=[['기본급',w*((+PAY.baseH||0)+8*ann)],['심야수당',w*r.night*.5],['휴일근무수당',w*r.h1*1.5],['연장수당',w*r.ext*1.5],['주휴수당',w*8*wk],['휴일연장수당',w*r.h2*2]],
+    tot=L.reduce((s,x)=>s+x[1],0),ded=tot*(+PAY.ded||0)/100,
+    inp=(l,k,v)=>`<div><label>${l}</label><input type="number" inputmode="decimal" step="any" value="${v||''}" onchange="setPay('${k}',this.value)"></div>`,
+    inpM=(l,k,v)=>`<div><label>${l}</label><input type="number" inputmode="decimal" value="${v||''}" onchange="setPayM('${k}',this.value)"></div>`;
+  $('#pay').innerHTML=`<div class="card"><div class="row"><button class="btn g" onclick="payMv(-1)">‹</button><div class="date">${PM.y}년 ${PM.m+1}월 급여</div><button class="btn g" onclick="payMv(1)">›</button></div><div class="lb" style="text-align:center;margin:6px 0 0;font-size:12px">${fd(a).slice(5)} ~ ${fd(b).slice(5)} 근무 · ${esc(me.name)}</div></div>
+<div class="card"><div class="lb">근태 (내 근무표 기준)</div><table class="pt">${rows([['근무일수','주간 '+r.n.주+'일 · 야간 '+r.n.야+'일'],['연장근로(1.5배)',h(r.ext)],['특근(1.5배)',h(r.h1)],['특근연장(2.0배)',h(r.h2)],['심야근로(0.5배)',h(r.night)],['조퇴 / 조출',h(r.el)+' / '+h(r.ea)]])}</table></div>
+<div class="card"><div class="lb">예상 급여</div>${w?`<table class="pt">${rows(L.map(([n,v])=>[n,won(v)]))}</table><table class="pt" style="margin-top:6px"><tr><td><b>지급 합계</b></td><td style="font-size:18px;color:var(--me)">${won(tot)}</td></tr>${PAY.ded?`<tr><td>예상 공제 (${PAY.ded}%)</td><td>-${won(ded)}</td></tr><tr><td><b>예상 실지급</b></td><td style="font-size:18px">${won(tot-ded)}</td></tr>`:''}</table>`:'<div class="empty">아래 설정에서 시급을 입력하면 금액이 계산돼요.</div>'}<div class="hint">예상액이에요. 실제 급여명세서와 비교해서 설정을 맞춰보세요.</div></div>
+<div class="card"><details${PSO?' open':''} ontoggle="PSO=this.open"><summary class="lb" style="cursor:pointer">설정 (이 폰에만 저장)</summary><div class="pg" style="margin-top:8px">${inp('시급(원)','wage',PAY.wage)}${inp('기본근로시간(월)','baseH',PAY.baseH)}${inpM('연차 사용일수(이 달)','ann',mm.ann)}${inpM('주휴일수(이 달)','wk',mm.wk)}${inp('휴게시간(근무당 h)','brk',PAY.brk)}${inp('심야시간(야간 근무당 h)','nightH',PAY.nightH)}${inp('정산 시작일(1=월초)','start',PAY.start)}${inp('공제율(%)','ded',PAY.ded)}</div><div class="row" style="margin-top:10px;font-size:13px"><label><input type="checkbox" ${PAY.sun?'checked':''} onchange="setPay('sun',this.checked?1:0)" style="width:auto;padding:0;margin-right:6px">일요일을 휴일로</label><label><input type="checkbox" ${PAY.sat?'checked':''} onchange="setPay('sat',this.checked?1:0)" style="width:auto;padding:0;margin-right:6px">토요일을 휴일로</label></div><div class="hint">공휴일은 항상 휴일이에요. 휴일 근무는 8시간까지 1.5배, 초과분은 2.0배로 계산해요.</div></details></div>`}
 let calY=0,calM=0;
 function openCal(){const t=new Date(sel+'T00:00:00Z');calY=t.getUTCFullYear();calM=t.getUTCMonth();drawCal()}
 function calGo(k){calM+=k;if(calM<0){calM=11;calY--}if(calM>11){calM=0;calY++}drawCal()}
@@ -161,7 +189,7 @@ function drawCal(){const f=Math.round(Date.UTC(calY,calM,1)/864e5),dim=new Date(
   $('#shb').innerHTML=h;$('#sh').classList.remove('hide')}
 function setOv(j,x,k){const p=S.people[j],key=p.id+'|'+x;if(!k||k===base(p,x))delete S.ov[key];else S.ov[key]=k;save();closeSh();render()}
 function closeSh(){$('#sh').classList.add('hide')}
-function tab(k){[1,2,3].forEach(i=>{$('#v'+i).classList.toggle('hide',i!==k);$('#t'+i).className='btn'+(i===k?'':' g')});if(k===1){SCX=dn(sel);render()}}
+function tab(k){[1,2,3].forEach(i=>{$('#v'+i).classList.toggle('hide',i!==k);$('#t'+i).className='btn'+(i===k?'':' g')});if(k===1){SCX=dn(sel);render()}if(k===3)renderPay()}
 const DL={async save({filename,data}){const type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',blob=new Blob([data],{type}),file=new File([blob],filename,{type});if(navigator.canShare&&navigator.canShare({files:[file]})){try{await navigator.share({files:[file]});return}catch(e){if(e&&e.name==='AbortError')return}}const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000)}};
 async function xlsx(){
   if(!DL||!window.ExcelJS){alert('이 화면에서는 저장할 수 없어요');return}
