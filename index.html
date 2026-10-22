@@ -42,10 +42,11 @@ td.nm.me{color:var(--me)}
 td[data-e]::before{content:attr(data-e);position:absolute;bottom:1px;left:1px;font-size:8px;line-height:1.2;background:var(--me);color:#000;border-radius:4px;padding:0 2px;font-weight:700}
 #crews{display:flex;gap:6px;margin-top:8px}#crews .sec{flex:1;margin-top:0;padding:8px;min-width:0;border-radius:14px}#crews h3{font-size:12px;margin:0 0 4px}#crews .chip{display:flex;padding:4px 7px;margin:3px 0;font-size:13px;flex-wrap:wrap;gap:4px}#crews .chip small{font-size:10px}
 #v1 .row .btn{padding:8px}
-.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:8px}.cal b{font-size:12px;color:var(--sub);text-align:center;font-weight:500}.cal b.r,.cal button.r{color:#ff6b6b}.cal button{border:0;border-radius:12px;background:#0b0d16;color:#fff;padding:9px 0;font-size:14px}.cal button.t{outline:1px solid var(--sub)}.cal button.s{background:linear-gradient(135deg,#f0883a,#ea6a3a);color:#fff}.ov{box-shadow:inset 0 -3px 0 #fff}#grid{border-collapse:separate;border-spacing:0}#grid th,#grid td{border:1px solid var(--bg)}#grid td.nm{border-right:1px solid var(--line)}#grid tr:first-child th:first-child{position:sticky;left:0;background:var(--card);z-index:1}#sh{position:fixed;inset:0;background:#000a;display:flex;align-items:flex-end;justify-content:center;z-index:50}#sh .box{background:var(--card);border-radius:24px 24px 0 0;padding:14px 14px calc(14px + env(safe-area-inset-bottom,0px));width:100%;max-width:640px}#sh .btn{width:100%;margin-top:8px}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:8px}.cal b{font-size:12px;color:var(--sub);text-align:center;font-weight:500}.cal b.r,.cal button.r{color:#ff6b6b}.cal button{border:0;border-radius:12px;background:#0b0d16;color:#fff;padding:9px 0;font-size:14px}.cal button.t{outline:1px solid var(--sub)}.cal button.s{background:linear-gradient(135deg,#f0883a,#ea6a3a);color:#fff}
+#grid td.nm{min-width:0;padding:0 5px;font-size:13px;white-space:nowrap}#grid tr:first-child th:first-child{min-width:0;padding:0}#grid th,#grid td.c{min-width:28px}.ov{box-shadow:inset 0 -3px 0 #fff}#grid{border-collapse:separate;border-spacing:0}#grid th,#grid td{border:1px solid var(--bg)}#grid td.nm{border-right:1px solid var(--line)}#grid tr:first-child th:first-child{position:sticky;left:0;background:var(--card);z-index:1}#sh{position:fixed;inset:0;background:#000a;display:flex;align-items:flex-end;justify-content:center;z-index:50}#sh .box{background:var(--card);border-radius:24px 24px 0 0;padding:14px 14px calc(14px + env(safe-area-inset-bottom,0px));width:100%;max-width:640px}#sh .btn{width:100%;margin-top:8px}
 </style></head><body>
 
-<div class="tabs"><button id="t1" class="btn" onclick="tab(1)">근무표</button><button id="t3" class="btn g" onclick="tab(3)">월급</button><button id="t2" class="btn g" onclick="tab(2)">조편성</button></div>
+<div class="tabs"><button id="t1" class="btn" onclick="tab(1)">근무표</button><button id="t2" class="btn g" onclick="tab(2)">조편성</button><button id="t3" class="btn g" onclick="tab(3)">월급</button></div>
 <div id="v1">
 <div class="card">
   <div class="now" id="now"></div>
@@ -124,7 +125,7 @@ function render(){
   $('#mt').textContent='근무표 (칸을 누르면 변경 · 조퇴 기록)';
   let hd='<tr><th></th>',bd=S.people.map(p=>`<tr><td class="nm${p.id===ME?' me':''}">${esc(p.name)}</td>`);
   for(let i=0;i<W;i++){const x=g0+i,c=x===n?' selc':'',t=new Date(x*864e5),mo=t.getUTCMonth()+1,dd=t.getUTCDate();
-    hd+=`<th class="${c}" data-x="${x}" style="${x===tn?'color:#f0883a':isOff(x)?'color:#ff6b6b':''}" onclick="pick('${fd(x)}')"><small style="display:block;font-size:9px;color:#fff">${i===0||dd===1?mo+'월':'&nbsp;'}</small>${dd}<br>${dow(x)}</th>`;
+    hd+=`<th class="${c}" data-x="${x}" style="${x===tn?'color:#4da3ff':isOff(x)?'color:#ff6b6b':''}" onclick="pick('${fd(x)}')"><small style="display:block;font-size:9px;color:#fff">${i===0||dd===1?mo+'월':'&nbsp;'}</small>${dd}<br>${dow(x)}</th>`;
     S.people.forEach((p,j)=>{const s=st(p,x),k=p.id+'|'+x,o=S.ov[k]?' ov':'',nt=S.nt[k],ea=S.ea[k];bd[j]+=`<td class="c ${s}${c}${o}"${nt?` data-n="-${nt}h"`:''}${ea?` data-e="+${ea}h"`:''} onclick="sheet(${j},${x})">${s}</td>`})}
   const w=document.querySelector('.wrap'),prev=w.scrollLeft;
   $('#grid').innerHTML=hd+'</tr>'+bd.map(r=>r+'</tr>').join('');
@@ -144,6 +145,7 @@ function sheet(j,x){const p=S.people[j],k=p.id+'|'+x,b=base(p,x),cur=st(p,x),h=S
   const hrs=(fn,cv)=>`<div class="sr">`+[0,1,2,3,4].map(v=>`<button class="btn g" style="${cv===v?'outline:2px solid #fff;color:#fff':''}" onclick="${fn}(${j},${x},${v})">${v?v+'h':'없음'}</button>`).join('')+`</div>`;
   $('#shb').innerHTML=`<div style="font-size:14px;font-weight:700">${esc(p.name)} · ${fd(x).slice(5).replace('-','월 ')}일 (${dow(x)})</div><div class="sr">`+[['주','주간','var(--day)'],['야','야간','var(--night)'],['휴','휴무','var(--rest)']].map(([kk,l,c])=>`<button class="btn" style="background:${c}${cur===kk?';outline:2px solid #fff':''}" onclick="setOv(${j},${x},'${kk}')">${l}</button>`).join('')+`<button class="btn g" onclick="setOv(${j},${x},'')">원래(${b})</button></div><div class="lb" style="margin:10px 0 0;font-size:12px">일찍 퇴근</div>`+hrs('setNote',h)+`<div class="lb" style="margin:10px 0 0;font-size:12px">일찍 출근</div>`+hrs('setEa',e);
   $('#sh').classList.remove('hide')}
+function setNote(j,x,v){const k=S.people[j].id+'|'+x;if(v)S.nt[k]=v;else delete S.nt[k];save();closeSh();render()}
 function setEa(j,x,v){const k=S.people[j].id+'|'+x;if(v)S.ea[k]=v;else delete S.ea[k];save();closeSh();render()}
 function askMe(){$('#shb').innerHTML='<div style="font-size:15px;font-weight:700">누구세요?</div><div class="lb" style="margin:4px 0 6px">내 이름을 고르면 표에서 색깔로 보여줘요</div>'+S.people.map(p=>`<button class="btn g" style="display:block;width:100%;margin-top:6px;padding:12px" onclick="setMe('${p.id}')">${esc(p.name)} <small>${esc(p.team)}조</small></button>`).join('');$('#sh').classList.remove('hide')}
 function setMe(id){ME=id;try{localStorage.setItem('shift_me',id)}catch(e){}closeSh();render()}
