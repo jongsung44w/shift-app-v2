@@ -45,7 +45,7 @@ td[data-e]::before{content:attr(data-e);position:absolute;bottom:1px;left:1px;fo
 .cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:8px}.cal b{font-size:12px;color:var(--sub);text-align:center;font-weight:500}.cal b.r,.cal button.r{color:#ff6b6b}.cal button{border:0;border-radius:12px;background:#0b0d16;color:#fff;padding:9px 0;font-size:14px}.cal button.t{outline:1px solid var(--sub)}.cal button.s{background:linear-gradient(135deg,#f0883a,#ea6a3a);color:#fff}
 #grid td.nm{min-width:0;padding:0 5px;font-size:13px;white-space:nowrap}#grid tr:first-child th:first-child{min-width:0;padding:0}#grid th,#grid td.c{min-width:28px}
 .pg{display:grid;grid-template-columns:1fr 1fr;gap:8px}.pg label{font-size:12px;color:var(--sub);display:block;margin-bottom:4px}.pg input{padding:8px;font-size:15px}.pt{width:100%;border-collapse:collapse;font-size:14px}.pt td{border:0;border-bottom:1px solid var(--line);padding:6px 0;min-width:0}.pt td:last-child{text-align:right;font-weight:600}summary{list-style:none}
-.bars{display:flex;gap:3px;align-items:flex-end;margin-top:10px}.bar{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;cursor:pointer;min-width:0}.bar small{font-size:9px;color:var(--sub);margin-bottom:2px}.bar i{width:100%;background:var(--day);border-radius:6px 6px 2px 2px;display:block}.bar.on i{background:var(--me)}.bar b{font-size:11px;color:var(--sub);margin-top:4px;font-weight:500}.bar.on b{color:var(--me)}.bar.es i{opacity:.4}.sl{display:flex;align-items:center;gap:8px;margin:14px 0 2px}.sl i{width:4px;height:14px;border-radius:2px;display:inline-block}.sl b{font-size:13px;font-weight:500}.sl u{flex:1;height:1px;background:var(--line)}.rw{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);font-size:14px}.rs .rw:last-child{border-bottom:0}.tt{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;margin-top:6px;font-size:14px;font-weight:700}.cmp td{font-size:13px}.cmp td:not(:first-child){text-align:right}.cmp td:first-child{width:40px}#pay .sr .btn{padding:7px 0;font-size:13px}.ov{box-shadow:inset 0 -3px 0 #fff}#grid{border-collapse:separate;border-spacing:0}#grid th,#grid td{border:1px solid var(--bg)}#grid td.nm{border-right:1px solid var(--line)}#grid tr:first-child th:first-child{position:sticky;left:0;background:var(--card);z-index:1}#sh{position:fixed;inset:0;background:#000a;display:flex;align-items:flex-end;justify-content:center;z-index:50}#sh .box{background:var(--card);border-radius:24px 24px 0 0;padding:14px 14px calc(14px + env(safe-area-inset-bottom,0px));width:100%;max-width:640px}#sh .btn{width:100%;margin-top:8px}
+.bars{display:flex;gap:3px;align-items:flex-end;margin-top:10px}.bar{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;cursor:pointer;min-width:0}.bar small{font-size:9px;color:var(--sub);margin-bottom:2px}.bar i{width:100%;background:var(--day);border-radius:6px 6px 2px 2px;display:block}.bar.on i{background:var(--me)}.bar b{font-size:11px;color:var(--sub);margin-top:4px;font-weight:500}.bar.on b{color:var(--me)}.bar.es i{opacity:.4}td.nn{background:#0b0d16;color:var(--sub)}.vr{display:flex;align-items:center;gap:8px;margin-top:8px}.vr label{flex:0 0 92px;font-size:14px;display:flex;align-items:center}.vr select{flex:1;padding:8px;font-size:14px;text-align:left}.sl{display:flex;align-items:center;gap:8px;margin:14px 0 2px}.sl i{width:4px;height:14px;border-radius:2px;display:inline-block}.sl b{font-size:13px;font-weight:500}.sl u{flex:1;height:1px;background:var(--line)}.rw{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);font-size:14px}.rs .rw:last-child{border-bottom:0}.tt{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;margin-top:6px;font-size:14px;font-weight:700}.cmp td{font-size:13px}.cmp td:not(:first-child){text-align:right}.cmp td:first-child{width:40px}#pay .sr .btn{padding:7px 0;font-size:13px}.ov{box-shadow:inset 0 -3px 0 #fff}#grid{border-collapse:separate;border-spacing:0}#grid th,#grid td{border:1px solid var(--bg)}#grid td.nm{border-right:1px solid var(--line)}#grid tr:first-child th:first-child{position:sticky;left:0;background:var(--card);z-index:1}#sh{position:fixed;inset:0;background:#000a;display:flex;align-items:flex-end;justify-content:center;z-index:50}#sh .box{background:var(--card);border-radius:24px 24px 0 0;padding:14px 14px calc(14px + env(safe-area-inset-bottom,0px));width:100%;max-width:640px}#sh .btn{width:100%;margin-top:8px}
 </style></head><body>
 
 <div class="tabs"><button id="t1" class="btn" onclick="tab(1)">근무표</button><button id="t2" class="btn g" onclick="tab(2)">조편성</button><button id="t3" class="btn g" onclick="tab(3)">월급</button></div>
@@ -68,6 +68,7 @@ td[data-e]::before{content:attr(data-e);position:absolute;bottom:1px;left:1px;fo
   <div id="warn"></div>
   <div id="ppl"></div>
   <button class="btn g" style="width:100%" onclick="add()">+ 근무자 추가</button>
+  <button class="btn" style="width:100%;margin-top:8px" onclick="openVer()">새 조편성 적용</button><div id="vers" style="margin-top:6px"></div>
   <div class="hide"><div class="lb" style="margin-top:16px">패턴 설정</div>
   <div class="row"><div><div class="lb">기준일</div><input type="date" id="an" onchange="cfg('anchor',this.value)"></div></div>
   <div class="row" style="margin-top:8px">
@@ -87,7 +88,7 @@ const DEF={anchor:'2026-10-08',d:4,n:4,r:2,people:[{name:'우종길',team:'A',of
 const DOW=['일','월','화','수','목','금','토'],$=s=>document.querySelector(s);
 let S=load();fix();
 let ME=null;try{ME=localStorage.getItem('shift_me')}catch(e){}
-function fix(){S.ov=S.ov||{};S.nt=S.nt||{};S.ea=S.ea||{};S.people.forEach((p,i)=>{if(!p.id)p.id='p'+i+Math.random().toString(36).slice(2,7)});save()}
+function fix(){S.vers=S.vers||[];S.ov=S.ov||{};S.nt=S.nt||{};S.ea=S.ea||{};S.people.forEach((p,i)=>{if(!p.id)p.id='p'+i+Math.random().toString(36).slice(2,7)});save()}
 function load(){try{const j=localStorage.getItem('shift_v1');if(j)return JSON.parse(j)}catch(e){}return JSON.parse(JSON.stringify(DEF))}
 function save(){try{localStorage.setItem('shift_v1',JSON.stringify(S))}catch(e){}}
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -102,7 +103,7 @@ const nmf=p=>p.id===ME?`<b style="color:var(--me)">${esc(p.name)}</b>`:esc(p.nam
 const meOk=()=>S.people.some(p=>p.id===ME);
 let NOOV=false;
 function st(p,n){const o=!NOOV&&S.ov&&S.ov[p.id+'|'+n];return o||base(p,n)}
-function base(p,n){const L=S.d+S.n+S.r,i=(((n-dn(S.anchor)+(+p.off||0))%L)+L)%L;return i<S.d?'주':i<S.d+S.n?'야':'휴'}
+function base(p,n){const v=verAt(n);if(v){const q=v.pos[p.id];return q==null?'-':CYC[(((n-dn(v.start)+q)%12)+12)%12]}if(p.nb)return'-';const L=S.d+S.n+S.r,i=(((n-dn(S.anchor)+(+p.off||0))%L)+L)%L;return i<S.d?'주':i<S.d+S.n?'야':'휴'}
 const crew=(k,n)=>S.people.filter(p=>st(p,n)===k);
 const chip=p=>{const k=p.id+'|'+dn(sel),h=S.nt[k],e=S.ea[k],me=p.id===ME;return `<span class="chip"${me?' style="outline:1.5px solid var(--me)"':''}><b class="tm">${esc(p.team)}</b><span${me?' style="color:var(--me)"':''}>${esc(p.name)}</span>${e?`<small style="color:var(--me);font-weight:500">조출 ${e}h</small>`:''}${h?`<small style="color:var(--sub);font-weight:500">조퇴 ${h}h</small>`:''}</span>`};
 const list=a=>a.length?a.map(chip).join(''):'<span class="empty">없음</span>';
@@ -112,7 +113,7 @@ function goToday(){sel=gs=todayStr();SCX=dn(sel);render()}
 function mv(k){setSel(fd(dn(sel)+k))}
 function pick(s){sel=s;render()}
 function upd(i,k,v){S.people[i][k]=v;save();render()}
-function add(){S.people.push({name:'신입',team:'C',off:0,id:'p'+Date.now()});save();render()}
+function add(){S.people.push({name:'신입',team:'C',off:0,nb:1,id:'p'+Date.now()});save();render()}
 function del(i){if(confirm(S.people[i].name+' 님을 삭제할까요?')){S.people.splice(i,1);save();render()}}
 function cfg(k,v){if(k!=='anchor'&&!(v>=0))return;S[k]=v;save();render()}
 function render(){
@@ -128,7 +129,7 @@ function render(){
   let hd='<tr><th></th>',bd=S.people.map(p=>`<tr><td class="nm${p.id===ME?' me':''}">${esc(p.name)}</td>`);
   for(let i=0;i<W;i++){const x=g0+i,c=x===n?' selc':'',t=new Date(x*864e5),mo=t.getUTCMonth()+1,dd=t.getUTCDate();
     hd+=`<th class="${c}" data-x="${x}" style="${x===tn?'color:#4da3ff':isOff(x)?'color:#ff6b6b':''}" onclick="pick('${fd(x)}')"><small style="display:block;font-size:9px;color:#fff">${i===0||dd===1?mo+'월':'&nbsp;'}</small>${dd}<br>${dow(x)}</th>`;
-    S.people.forEach((p,j)=>{const s=st(p,x),k=p.id+'|'+x,o=S.ov[k]?' ov':'',nt=S.nt[k],ea=S.ea[k];bd[j]+=`<td class="c ${s}${c}${o}"${nt?` data-n="-${nt}h"`:''}${ea?` data-e="+${ea}h"`:''} onclick="sheet(${j},${x})">${s}</td>`})}
+    S.people.forEach((p,j)=>{const s=st(p,x),k=p.id+'|'+x,o=S.ov[k]?' ov':'',nt=S.nt[k],ea=S.ea[k];bd[j]+=`<td class="c ${s==='-'?'nn':s}${c}${o}"${nt?` data-n="-${nt}h"`:''}${ea?` data-e="+${ea}h"`:''} onclick="sheet(${j},${x})">${s}</td>`})}
   const w=document.querySelector('.wrap'),prev=w.scrollLeft;
   $('#grid').innerHTML=hd+'</tr>'+bd.map(r=>r+'</tr>').join('');
   if(w.offsetParent!==null){if(SCX!=null){const th=document.querySelector('#grid th[data-x="'+SCX+'"]'),fw=document.querySelector('#grid th').offsetWidth;if(th)w.scrollLeft=th.offsetLeft-fw;SCX=null}else w.scrollLeft=prev}
@@ -136,12 +137,12 @@ function render(){
   let sm=`<div class="lb" style="margin:12px 0 4px">${d0.getUTCFullYear()}년 ${d0.getUTCMonth()+1}월 요약</div><table class="sm"><tr><th>이름</th><th>주간</th><th>야간</th><th>휴무</th><th>조퇴</th><th>조출</th></tr>`;
   S.people.forEach(p=>{const c={주:0,야:0,휴:0};let e=0,a=0;for(let i=0;i<dim;i++){const x=f+i,k=p.id+'|'+x;c[st(p,x)]++;e+=S.nt[k]||0;a+=S.ea[k]||0}sm+=`<tr><td style="${p.id===ME?'color:var(--me)':''}"><b>${esc(p.name)}</b></td><td style="color:var(--day)">${c.주}일</td><td style="color:var(--night)">${c.야}일</td><td style="color:var(--rest)">${c.휴}일</td><td>${e?e+'h':'-'}</td><td>${a?a+'h':'-'}</td></tr>`});
   $('#sum').innerHTML=sm+'</table>';
-  const L=S.d+S.n+S.r;let bad=0;NOOV=true;
-  for(let i=0;i<L;i++){const x=dn(S.anchor)+i;if(crew('주',x).length!==2||crew('야',x).length!==2)bad++}
-  NOOV=false;$('#warn').innerHTML=bad?`<div class="warn">주간·야간이 2명이 아닌 날이 한 사이클(${L}일) 중 ${bad}일 있어요. 순번을 조정해 주세요.</div>`:'';
+  const L=12;let bad=0;NOOV=true;
+  for(let i=0;i<L;i++){const x=dn(todayStr())+i;if(crew('주',x).length!==2||crew('야',x).length!==2)bad++}
+  NOOV=false;$('#warn').innerHTML=bad?`<div class="warn">주간·야간이 2명이 아닌 날이 앞으로 ${L}일 중 ${bad}일 있어요. 근무자와 조편성을 확인해 주세요.</div>`:'';
   $('#ppl').innerHTML='<div class="pr lb"><span>이름</span><span>조</span><span>순번</span><span></span></div>'+S.people.map((p,i)=>`<div class="pr"><input value="${esc(p.name)}" onchange="upd(${i},'name',this.value)"><select onchange="upd(${i},'team',this.value)">${['A','B','C','D'].map(o=>`<option${o===p.team?' selected':''}>${o}</option>`).join('')}</select><input type="number" min="0" max="${L-1}" value="${p.off}" onchange="upd(${i},'off',+this.value)"><button class="x" onclick="del(${i})">×</button></div>`).join('');
   $('#an').value=S.anchor;$('#cd').value=S.d;$('#cn').value=S.n;$('#cr').value=S.r;
-  const me=S.people.find(p=>p.id===ME);$('#meline').innerHTML=`내 이름: <b style="color:var(--me)">${me?esc(me.name):'-'}</b> <button class="btn g" style="padding:4px 10px;margin-left:8px;font-size:12px" onclick="askMe()">변경</button>`;if(!me&&S.people.length)askMe();try{updatePred()}catch(e){}
+  $('#vers').innerHTML=S.vers.map((v,i)=>`<div class="rw"><span>${v.start} 부터 · ${Object.keys(v.pos).length}명 · 주4 휴2 야4 휴2</span><button class="x" onclick="delVer(${i})">×</button></div>`).join('');const me=S.people.find(p=>p.id===ME);$('#meline').innerHTML=`내 이름: <b style="color:var(--me)">${me?esc(me.name):'-'}</b> <button class="btn g" style="padding:4px 10px;margin-left:8px;font-size:12px" onclick="askMe()">변경</button>`;if(!me&&S.people.length)askMe();try{updatePred()}catch(e){}
 }
 function sheet(j,x){const p=S.people[j],k=p.id+'|'+x,b=base(p,x),cur=st(p,x),h=S.nt[k]||0,e=S.ea[k]||0;
   const hrs=(fn,cv)=>`<div class="sr">`+[0,1,2,3,4].map(v=>`<button class="btn g" style="${cv===v?'outline:2px solid #fff;color:#fff':''}" onclick="${fn}(${j},${x},${v})">${v?v+'h':'없음'}</button>`).join('')+`</div>`;
@@ -160,7 +161,7 @@ function setPayM(k,v){const key=PM.y+'-'+(PM.m+1);PAY.m[key]=PAY.m[key]||{};if(v
 function payMv(k){PM.m+=k;if(PM.m<0){PM.m=11;PM.y--}if(PM.m>11){PM.m=0;PM.y++}renderPay()}
 function payRange(y=PM.y,m=PM.m){const s=PAY.start>1?PAY.start:1,a=s>1?Date.UTC(y,m-1,s):Date.UTC(y,m,1),b=s>1?Date.UTC(y,m,s-1):Date.UTC(y,m+1,0);return[Math.round(a/864e5),Math.round(b/864e5)]}
 function calcPay(p,a,b){const r={n:{주:0,야:0},ext:0,h1:0,h2:0,night:0,el:0,ea:0};
-  for(let x=a;x<=b;x++){const s=st(p,x);if(s==='휴')continue;const k=p.id+'|'+x,e=S.nt[k]||0,ar=S.ea[k]||0;r.n[s]++;r.el+=e;r.ea+=ar;
+  for(let x=a;x<=b;x++){const s=st(p,x);if(s==='휴'||s==='-')continue;const k=p.id+'|'+x,e=S.nt[k]||0,ar=S.ea[k]||0;r.n[s]++;r.el+=e;r.ea+=ar;
     const H=Math.max(0,12-PAY.brk-e+ar),dd=di(x),hol=(PAY.sun&&dd===0)||(PAY.sat&&dd===6)||!!HOL[fd(x)];
     if(hol){r.h1+=Math.min(H,8);r.h2+=Math.max(0,H-8)}else r.ext+=Math.max(0,H-8);
     r.night+=s==='야'?Math.max(0,PAY.nightH-Math.max(0,e-1)):Math.max(0,ar-1)}
@@ -210,6 +211,23 @@ function renderPay(){try{updatePred()}catch(e){}const me=S.people.find(p=>p.id==
 ${yearChart(me)}${cmpCard()}${histCard(PM.y,PM.m)}<div class="card"><div class="lb">근태 (내 근무표 기준)</div><table class="pt">${rows([['근무일수','주간 '+r.n.주+'일 · 야간 '+r.n.야+'일'],['연장근로(1.5배)',h(r.ext)],['특근(1.5배)',h(r.h1)],['특근연장(2.0배)',h(r.h2)],['심야근로(0.5배)',h(r.night)],['조퇴 / 조출',h(r.el)+' / '+h(r.ea)]])}</table></div>
 <div class="card"><div class="lb">예상 급여</div>${w?`<table class="pt">${rows(L.map(([n,v])=>[n,won(v)]))}</table><table class="pt" style="margin-top:6px"><tr><td><b>지급 합계</b></td><td style="font-size:18px;color:var(--me)">${won(tot)}</td></tr>${dr?`<tr><td>예상 공제 (${(dr*100).toFixed(1)}%)</td><td>-${won(ded)}</td></tr><tr><td><b>예상 실지급</b></td><td style="font-size:18px">${won(tot-ded)}</td></tr>`:''}</table>`:'<div class="empty">아래 설정에서 시급을 입력하면 금액이 계산돼요.</div>'}<div class="hint">예상액이에요. 실제 급여명세서와 비교해서 설정을 맞춰보세요.</div></div>
 <div class="card"><details${PSO?' open':''} ontoggle="PSO=this.open"><summary class="lb" style="cursor:pointer">설정 (이 폰에만 저장)</summary><div class="pg" style="margin-top:8px">${inp('시급(원)','wage',PAY.wage)}${inp('기본근로시간(월)','baseH',PAY.baseH)}${inp('주휴일수(매달 기본)','wkDef',PAY.wkDef)}${inpM('연차 사용일수(이 달)','ann',mm.ann)}${inpM('주휴일수(이 달)','wk',mm.wk,PAY.wkDef||'')}${inp('휴게시간(근무당 h)','brk',PAY.brk)}${inp('심야시간(야간 근무당 h)','nightH',PAY.nightH)}${inp('정산 시작일(1=월초)','start',PAY.start)}${inp('공제율(%) · 비우면 평균','ded',PAY.ded)}</div><div class="row" style="margin-top:10px;font-size:13px"><label><input type="checkbox" ${PAY.sun?'checked':''} onchange="setPay('sun',this.checked?1:0)" style="width:auto;padding:0;margin-right:6px">일요일을 휴일로</label><label><input type="checkbox" ${PAY.sat?'checked':''} onchange="setPay('sat',this.checked?1:0)" style="width:auto;padding:0;margin-right:6px">토요일을 휴일로</label></div><div class="hint">공휴일은 항상 휴일이에요. 휴일 근무는 8시간까지 1.5배, 초과분은 2.0배로 계산해요.</div><div class="sr" style="margin-top:10px"><label class="btn g" style="text-align:center;cursor:pointer">급여 내역 가져오기<input type="file" accept=".json,application/json" onchange="importHist(this)" style="display:none"></label><button class="btn g" onclick="clearHist()">내역 지우기</button></div></details></div>`}
+const CYC=['주','주','주','주','휴','휴','야','야','야','야','휴','휴'];
+const CYCL=['주간 1일차','주간 2일차','주간 3일차','주간 4일차','휴무 1일차 (주간 뒤)','휴무 2일차 (주간 뒤)','야간 1일차','야간 2일차','야간 3일차','야간 4일차','휴무 1일차 (야간 뒤)','휴무 2일차 (야간 뒤)'];
+function verAt(x){let v=null;for(const k of S.vers){const d=dn(k.start);if(d<=x&&(!v||d>=dn(v.start)))v=k}return v}
+function defIdx(p,x){const v=verAt(x);if(v){const q=v.pos[p.id];return q==null?4:(((x-dn(v.start)+q)%12)+12)%12}
+  if(p.nb)return 4;const L=S.d+S.n+S.r,i=(((x-dn(S.anchor)+(+p.off||0))%L)+L)%L;
+  if(i<S.d)return Math.min(i,3);if(i<S.d+S.n)return 6+Math.min(i-S.d,3);return 10+Math.min(i-S.d-S.n,1)}
+function openVer(d){d=d||todayStr();const x=dn(d),v=verAt(x);
+  const rows=S.people.map((p,i)=>`<div class="vr"><label><input type="checkbox" id="vc${i}" onchange="verCheck()" style="width:auto;padding:0;margin-right:6px"${v&&v.pos[p.id]==null&&!p.nb?'':' checked'}>${esc(p.name)}</label><select id="vs${i}" onchange="verCheck()">${CYCL.map((l,k)=>`<option value="${k}"${k===defIdx(p,x)?' selected':''}>${l}</option>`).join('')}</select></div>`).join('');
+  $('#shb').innerHTML=`<div style="font-size:15px;font-weight:700">새 조편성 · 주4 휴2 야4 휴2</div><div class="lb" style="margin:8px 0 4px">시작일 (이 날부터 새 조편성, 이전은 그대로)</div><input type="date" id="vd" value="${d}" onchange="openVer(this.value)"><div class="lb" style="margin:10px 0 0">시작일에 각자 어디에 있는지 골라요 (체크 해제 = 근무 없음)</div>${rows}<div id="vw" style="margin-top:8px"></div><div class="sr" style="margin-top:10px"><button class="btn g" onclick="closeSh()">취소</button><button class="btn" onclick="saveVer()">적용</button></div>`;
+  $('#sh').classList.remove('hide');verCheck()}
+function verCheck(){const pos=[];S.people.forEach((p,i)=>{if($('#vc'+i).checked)pos.push(+$('#vs'+i).value)});let bad=0;
+  for(let d=0;d<12;d++){const c={주:0,야:0,휴:0};pos.forEach(q=>c[CYC[(q+d)%12]]++);if(c.주!==2||c.야!==2||c.휴!==2)bad++}
+  $('#vw').innerHTML=bad?`<div class="warn">매일 주간 2·야간 2·휴무 2가 되려면 선택을 조정해야 해요. (12일 중 ${bad}일이 안 맞아요)</div>`:'<div class="hint" style="color:var(--me)">12일 내내 주간 2 · 야간 2 · 휴무 2로 맞아요</div>'}
+function saveVer(){const d=$('#vd').value;if(!d){alert('시작일을 골라 주세요');return}const pos={};S.people.forEach((p,i)=>{if($('#vc'+i).checked)pos[p.id]=+$('#vs'+i).value});
+  if(!Object.keys(pos).length){alert('근무자를 한 명 이상 선택해 주세요');return}
+  S.vers=S.vers.filter(v=>v.start!==d);S.vers.push({start:d,pos});S.vers.sort((a,b)=>a.start<b.start?-1:1);save();closeSh();SCX=dn(d);render()}
+function delVer(i){if(confirm('이 조편성 적용을 지울까요? 이전 근무표로 돌아가요.')){S.vers.splice(i,1);save();render()}}
 let calY=0,calM=0;
 function openCal(){const t=new Date(sel+'T00:00:00Z');calY=t.getUTCFullYear();calM=t.getUTCMonth();drawCal()}
 function calGo(k){calM+=k;if(calM<0){calM=11;calY--}if(calM>11){calM=0;calY++}drawCal()}
