@@ -69,6 +69,8 @@ td[data-e]::before{content:attr(data-e);position:absolute;bottom:1px;left:1px;fo
   <div id="ppl"></div>
   <button class="btn g" style="width:100%" onclick="add()">+ 근무자 추가</button>
   <button class="btn" style="width:100%;margin-top:8px" onclick="openVer()">새 조편성 적용</button><div id="vers" style="margin-top:6px"></div>
+  <button class="btn g" style="width:100%;margin-top:14px" onclick="backupExport()">백업 파일 저장하기</button>
+  <div class="hint">근무 변경, 조편성, 급여 설정과 내역을 한 파일(JSON)로 저장해요. 폰을 바꾸거나 데이터를 옮길 때 쓰세요.</div>
   <div class="hide"><div class="lb" style="margin-top:16px">패턴 설정</div>
   <div class="row"><div><div class="lb">기준일</div><input type="date" id="an" onchange="cfg('anchor',this.value)"></div></div>
   <div class="row" style="margin-top:8px">
@@ -241,6 +243,11 @@ function drawCal(){const f=Math.round(Date.UTC(calY,calM,1)/864e5),dim=new Date(
   h+='</div>'+(hl.length?`<div class="lb" style="margin:8px 0 0;font-size:12px;color:#ff6b6b">${hl.join(' · ')}</div>`:'');
   $('#shb').innerHTML=h;$('#sh').classList.remove('hide')}
 function setOv(j,x,k){const p=S.people[j],key=p.id+'|'+x;if(!k||k===base(p,x))delete S.ov[key];else S.ov[key]=k;save();closeSh();render()}
+const BK_KEYS=['shift_v1','shift_pay','shift_payhist','shift_me','shift_pred'];
+function backupData(){const o={app:'포트캐리어 근무표',v:1,savedAt:new Date().toISOString(),data:{}};BK_KEYS.forEach(k=>{try{const v=localStorage.getItem(k);if(v!==null)o.data[k]=v}catch(e){}});return JSON.stringify(o,null,1)}
+async function backupExport(){const txt=backupData(),name='포트캐리어_백업_'+todayStr()+'.json',blob=new Blob([txt],{type:'application/json'}),file=new File([blob],name,{type:'application/json'});
+  try{if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file]});return}}catch(e){if(e&&e.name==='AbortError')return}
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000)}
 function closeSh(){$('#sh').classList.add('hide')}
 function tab(k){[1,2,3].forEach(i=>{$('#v'+i).classList.toggle('hide',i!==k);$('#t'+i).className='btn'+(i===k?'':' g')});if(k===1){SCX=dn(sel);render()}if(k===3)renderPay()}
 const DL={async save({filename,data}){const type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',blob=new Blob([data],{type}),file=new File([blob],filename,{type});if(navigator.canShare&&navigator.canShare({files:[file]})){try{await navigator.share({files:[file]});return}catch(e){if(e&&e.name==='AbortError')return}}const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000)}};
