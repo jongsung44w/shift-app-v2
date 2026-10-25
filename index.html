@@ -221,10 +221,12 @@ function openVer(d){d=d||todayStr();const x=dn(d),v=verAt(x);
   const rows=S.people.map((p,i)=>`<div class="vr"><label><input type="checkbox" id="vc${i}" onchange="verCheck()" style="width:auto;padding:0;margin-right:6px"${v&&v.pos[p.id]==null&&!p.nb?'':' checked'}>${esc(p.name)}</label><select id="vs${i}" onchange="verCheck()">${CYCL.map((l,k)=>`<option value="${k}"${k===defIdx(p,x)?' selected':''}>${l}</option>`).join('')}</select></div>`).join('');
   $('#shb').innerHTML=`<div style="font-size:15px;font-weight:700">새 조편성 · 주4 휴2 야4 휴2</div><div class="lb" style="margin:8px 0 4px">시작일 (이 날부터 새 조편성, 이전은 그대로)</div><input type="date" id="vd" value="${d}" onchange="openVer(this.value)"><div class="lb" style="margin:10px 0 0">시작일에 각자 어디에 있는지 골라요 (체크 해제 = 근무 없음)</div>${rows}<div id="vw" style="margin-top:8px"></div><div class="sr" style="margin-top:10px"><button class="btn g" onclick="closeSh()">취소</button><button class="btn" onclick="saveVer()">적용</button></div>`;
   $('#sh').classList.remove('hide');verCheck()}
-function verCheck(){const pos=[];S.people.forEach((p,i)=>{if($('#vc'+i).checked)pos.push(+$('#vs'+i).value)});let bad=0;
-  for(let d=0;d<12;d++){const c={주:0,야:0,휴:0};pos.forEach(q=>c[CYC[(q+d)%12]]++);if(c.주!==2||c.야!==2||c.휴!==2)bad++}
-  $('#vw').innerHTML=bad?`<div class="warn">매일 주간 2·야간 2·휴무 2가 되려면 선택을 조정해야 해요. (12일 중 ${bad}일이 안 맞아요)</div>`:'<div class="hint" style="color:var(--me)">12일 내내 주간 2 · 야간 2 · 휴무 2로 맞아요</div>'}
-function saveVer(){const d=$('#vd').value;if(!d){alert('시작일을 골라 주세요');return}const pos={};S.people.forEach((p,i)=>{if($('#vc'+i).checked)pos[p.id]=+$('#vs'+i).value});
+let VEROK=true;
+function verCheck(){const pos=[];S.people.forEach((p,i)=>{if($('#vc'+i).checked)pos.push(+$('#vs'+i).value)});const n=pos.length;let bad=0;
+  for(let d=0;d<12;d++){const c={주:0,야:0,휴:0};pos.forEach(q=>c[CYC[(q+d)%12]]++);if(c.주!==2||c.야!==2)bad++}
+  VEROK=n>=6&&!bad;
+  $('#vw').innerHTML=n<6?`<div class="warn">지금 ${n}명이라 이 패턴(주4·휴2·야4·휴2)으로는 매일 주간 2명·야간 2명을 채울 수 없어요. 6명이 되면 맞출 수 있어요.</div>`:bad?`<div class="warn">선택을 조금 바꿔 주세요. 12일 중 ${bad}일은 주간이나 야간이 2명이 아니에요.</div>`:`<div class="hint" style="color:var(--me)">12일 내내 주간 2 · 야간 2로 맞아요 (휴무 ${n-4}명)</div>`}
+function saveVer(){const d=$('#vd').value;if(!VEROK&&!confirm('매일 주간 2명·야간 2명이 안 되는 날이 있어요. 그래도 적용할까요?'))return;if(!d){alert('시작일을 골라 주세요');return}const pos={};S.people.forEach((p,i)=>{if($('#vc'+i).checked)pos[p.id]=+$('#vs'+i).value});
   if(!Object.keys(pos).length){alert('근무자를 한 명 이상 선택해 주세요');return}
   S.vers=S.vers.filter(v=>v.start!==d);S.vers.push({start:d,pos});S.vers.sort((a,b)=>a.start<b.start?-1:1);save();closeSh();SCX=dn(d);render()}
 function delVer(i){if(confirm('이 조편성 적용을 지울까요? 이전 근무표로 돌아가요.')){S.vers.splice(i,1);save();render()}}
